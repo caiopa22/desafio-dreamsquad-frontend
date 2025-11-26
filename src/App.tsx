@@ -1,121 +1,126 @@
-'use client'
-
-import { ArrowRight, MicIcon, MoonIcon, SunIcon } from "lucide-react";
-import { useState } from "react";
+import { ArrowRight, MicIcon, Trash } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Button } from "./components/ui/button";
 import { Textarea } from "./components/ui/textarea";
-import { useTheme } from "./components/ui/theme-provider";
-
-const messages = [
-  {
-    message: "Oi, IA! Como você está hoje?",
-    role: "user"
-  },
-  {
-    message: "Oi! Estou ótima, pronta para conversar com você. E você, como está?",
-    role: "assistant"
-  },
-  {
-    message: "Estou bem também. Você pode me recomendar um livro de ficção científica?",
-    role: "user"
-  },
-  {
-    message: "Claro! 'Duna' de Frank Herbert é um clássico imperdível e cheio de aventura e política intergaláctica.",
-    role: "assistant"
-  },
-  {
-    message: "Ótimo! E qual é a melhor forma de organizar meu tempo para ler mais?",
-    role: "user"
-  },
-  {
-    message: "Uma boa ideia é criar blocos de 30 a 60 minutos por dia exclusivamente para leitura. Assim você cria consistência sem se sobrecarregar.",
-    role: "assistant"
-  },
-  {
-    message: "Interessante! Vou tentar isso. Obrigado pela dica!",
-    role: "user"
-  },
-  {
-    message: "De nada! Boa leitura e qualquer coisa, estou aqui para mais recomendações.",
-    role: "assistant"
-  }
-];
+import ToggleTheme from "./components/toggle-theme";
+import InitialChat from "./components/initial-chat";
+import { useChat } from "./hooks/useChat";
+import ChatInput from "./components/chat-input";
+import ReactMarkdown from 'react-markdown';
+import { SidebarTrigger, useSidebar } from "./components/ui/sidebar";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "./components/ui/dialog";
 
 export default function App() {
 
-  const { setTheme, theme } = useTheme()
-
+  const { messages, clearChat, isLoading, sendMessage } = useChat();
+  const [prompt, setPrompt] = useState<string>("");
   const [hasChat, setHasChat] = useState<boolean>(false);
+  const { open } = useSidebar();
+
+  function handleSubmit() {
+    if (!prompt) return;
+    setHasChat(true);
+    sendMessage(prompt);
+    setPrompt("");
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  }
+
 
   return (
-    <div className="flex flex-col justify-center items-center gap-4 min-h-screen w-full p-4 border">
-      <Button
-        variant="outline"
-        size="icon"
-        onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        className="absolute top-4 right-4"
+    <div className="flex relative flex-col justify-center items-center min-h-screen w-full">
+      <ToggleTheme />
+
+      <div className="fixed right-16 top-4">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="ghost" className="p-2 rounded-full" disabled={!hasChat}>
+              <Trash className="w-5 h-5 text-red-600" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-sm">
+            <DialogHeader>
+              <DialogTitle>Confirmar ação</DialogTitle>
+              <DialogDescription>
+                Tem certeza que deseja resetar o contexto? Essa ação não pode ser desfeita.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-4 flex justify-end gap-2">
+              <DialogClose className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 text-black font-[Geist]">
+                Cancelar
+              </DialogClose>
+              <DialogClose
+                className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 font-[Geist]"
+                onClick={() => {
+                  clearChat(); 
+                  setHasChat(false);
+                }}
+              >
+                Confirmar
+              </DialogClose>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      <div className={`fixed top-4 duration-200 ease-linear`}
+        style={{
+          left: open ? 'calc(var(--sidebar-width) + 1rem)' : '1rem'
+        }}
       >
-        <SunIcon className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-        <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-        <span className="sr-only">Toggle theme</span>
-      </Button>
+        <SidebarTrigger />
+      </div>
+
       {hasChat ? (
-        <div className="flex flex-col gap-12 w-3/5">
+        <div className="flex flex-col gap-12 w-3/5 pb-56">
           <div className="flex flex-col justify-center gap-6 mt-12">
             {messages.map((message, index) => {
               const isAI = message.role === "assistant";
               return (
-                <div key={index} className={`flex ${isAI ? "justify-start" : "justify-end"}`}>
+                <div
+                  key={index}
+                  className={`flex ${isAI ? "justify-start" : "justify-end"} mb-4`}
+                >
                   <div
                     className={`
-                                            p-4
-                                            ${isAI ? "bg-muted text-foreground" : "bg-primary text-white"}
-                                            rounded-xl font-sans max-w-3/4
-                                        `}
+                      p-4
+                      ${isAI ? "bg-muted text-foreground" : "bg-chart-1 text-white"}
+                      rounded-xl font-sans 
+                      max-w-[75%]              
+                      break-words                
+                    `}
+                    style={{ whiteSpace: 'pre-wrap' }}
                   >
-                    {message.message}
+                    <ReactMarkdown>{message.message}</ReactMarkdown>
                   </div>
                 </div>
               );
             })}
+            {isLoading && (
+              <div className="flex justify-start ">
+                <div className="size-4 rounded-full bg-chart-1 animate-pulse"/>
+              </div>
+            )}
           </div>
-          <div className="flex flex-col gap-4 w-full">
-            <Textarea
-              placeholder="Type your awesome prompt here"
-              className="resize-none font-sans !text-lg h-32 "
-            >
-            </Textarea>
-            <div className="w-full flex gap-4 justify-end">
-              <Button size="icon" className="rounded-full">
-                <MicIcon />
-              </Button>
-              <Button onClick={() => setHasChat(true)} size="icon" className="rounded-full">
-                <ArrowRight />
-              </Button>
+
+          <div
+            className={`
+              ${open ? "left-(--sidebar-width)" : "left-0"} 
+              transition-[left] ease-linear duration-200 
+              fixed bottom-0 bg-background right-0 p-4 z-10
+            `}
+          >
+            <div className="w-3/5 mx-auto">
+              <ChatInput
+                setPrompt={setPrompt}
+                prompt={prompt}
+                onSubmit={handleSubmit}
+              />
             </div>
           </div>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center w-full h-full gap-12">
-          <h1 className="font-[Geist] text-3xl text-foreground font-bold">Hello Caio, lets build the next big thing.</h1>
-          <div className="flex flex-col gap-4 w-2/4">
-            <Textarea
-              placeholder="Type your awesome prompt here"
-              className="resize-none font-sans !text-lg h-32 "
-            >
-            </Textarea>
-            <div className="w-full flex gap-4 justify-end">
-              <Button size="icon" className="rounded-full">
-                <MicIcon />
-              </Button>
-              <Button onClick={() => setHasChat(true)} size="icon" className="rounded-full">
-                <ArrowRight />
-              </Button>
-            </div>
-          </div>
-        </div>
+        <InitialChat setPrompt={setPrompt} prompt={prompt} onSubmit={handleSubmit} />
       )}
-
     </div>
   )
 }
