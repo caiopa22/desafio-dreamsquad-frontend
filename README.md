@@ -1,73 +1,294 @@
-# React + TypeScript + Vite
+# ⭐ Desafio - Dreamsquad (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/React-19.2+-blue?logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-7.2+-purple?logo=vite&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9+-blue?logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.1+-06B6D4?logo=tailwindcss&logoColor=white)
+![License](https://img.shields.io/badge/License-Private-red)
 
-Currently, two official plugins are available:
+## 📖 Sobre o projeto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Interface web moderna e responsiva desenvolvida como solução para o desafio técnico da **Dreamsquad**. O frontend oferece uma experiência de chat intuitiva e elegante, integrando-se perfeitamente com o backend de IA local. Construído com tecnologias modernas e otimizadas para performance.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🎯 Características
 
-## Expanding the ESLint configuration
+- ✅ Interface de chat em tempo real
+- ✅ Modo claro/escuro com tema persistente
+- ✅ Design responsivo (mobile-first)
+- ✅ Componentes reutilizáveis com Shadcn/ui
+- ✅ Integração com API local via Axios
+- ✅ Sidebar dinâmica com toggle
+- ✅ Componentes acessíveis (Shadcn)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🚀 Tecnologias utilizadas
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+| Tecnologia | Versão | Função |
+|---|---|---|
+| **React** | 19.2+ | Framework de UI |
+| **Vite** | 7.2+ | Build tool rápido e moderno |
+| **TypeScript** | 5.9+ | Tipagem estática |
+| **Tailwind CSS** | 4.1+ | Estilização utilitária |
+| **Shadcn/ui** | Latest | Componentes acessíveis |
+| **Axios** | 1.13+ | Cliente HTTP |
+| **Lucide React** | 0.554+ | Ícones |
+| **Next Themes** | 0.4+ | Gerenciador de temas |
+| **React Markdown** | 10.1+ | Renderização de markdown |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## 📁 Estrutura do projeto
+
+```
+desafio-dreamsquad-frontend/
+├── src/
+│   ├── assets/               # Imagens, ícones, fontes
+│   ├── components/
+│   │   ├── ui/               # Componentes Shadcn/ui
+│   │   ├── app-sidebar.tsx   # Sidebar principal
+│   │   ├── chat-input.tsx    # Input de mensagens
+│   │   ├── initial-chat.tsx  # Chat inicial vazio
+│   │   └── toggle-theme.tsx  # Toggle de tema
+│   ├── hooks/
+│   │   ├── useChat.ts        # Hook de gerenciamento de chat
+│   │   └── use-mobile.ts     # Responsividade
+│   ├── lib/
+│   │   ├── utils.ts          # Funções utilitárias
+│   │   ├── ApiResponses.ts   # Tipos de respostas da API
+│   │   └── Messages.ts       # Tipos de mensagens
+│   ├── models/
+│   │   └── ApiResponses.ts   # Modelos de resposta da API
+│   ├── utils/
+│   │   ├── toast.ts          # Funções de notificação
+│   │   └── ApiResponses.ts   # Tipos de API
+│   ├── App.tsx               # Componente raiz
+│   ├── main.tsx              # Entrada da aplicação
+│   ├── globals.css           # Estilos globais
+│   └── index.html            # Template HTML
+├── public/                   # Arquivos estáticos
+├── .gitignore
+├── components.json           # Configuração Shadcn/ui
+├── eslint.config.js
+├── index.html
+├── package.json
+├── package-lock.json
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+├── vite.config.ts
+└── README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ Pré-requisitos
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Antes de começar, certifique-se de ter instalado:
+
+- **Node.js 18+** — [Download](https://nodejs.org/)
+- **npm ou yarn** — Gerenciador de pacotes
+- **Git** — Para clonar o repositório
+
+---
+
+## 📦 Instalação
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/caiopa22/desafio-dreamsquad-frontend
+cd desafio-dreamsquad-frontend
 ```
+
+### 2. Instale as dependências
+
+```bash
+npm install
+# ou
+yarn install
+```
+
+---
+
+## ▶️ Executando o projeto
+
+### Desenvolvimento
+
+```bash
+npm run dev
+```
+
+O servidor será iniciado em: **http://localhost:5173**
+
+### Build para produção
+
+```bash
+npm run build
+```
+
+Os arquivos otimizados ficarão na pasta `dist/`
+
+---
+
+## 📁 Componentes principais
+
+### `App.tsx`
+Componente raiz que gerencia o layout principal.
+
+### `components/app-sidebar.tsx`
+Sidebar com navegação, ensinando como rodar o sistema.
+
+### `components/chat-input.tsx`
+Input de mensagens para o Bot.
+
+### `components/initial-chat.tsx`
+Tela inicial vazia quando não há mensagens.
+
+### `components/toggle-theme.tsx`
+Botão para alternar entre modo claro e escuro usando Next Themes.
+
+### `hooks/useChat.ts`
+Hook customizado para gerenciar estado do chat, enviar mensagens e integrar com a API.
+
+### `hooks/use-mobile.ts`
+Hook para detectar se está em dispositivo mobile e adaptar UI.
+
+---
+
+## 🔗 Integração com API
+
+### Exemplo de requisição
+
+```typescript
+import api from '@/lib/api';
+
+// Enviar mensagem
+const response = await api.post('http://127.0.0.1:8000/chat/', {
+  message: 'Quanto é 2 + 2?'
+});
+
+// Resetar contexto
+await api.post('http://127.0.0.1:8000/chat/reset');
+```
+
+### Tipos de respostas
+
+```typescript
+interface AiResponse {
+  response: {
+    role: string;
+    content: {
+      text: string;
+    }[];
+  };
+}
+
+interface ResetResponse {
+  status: string;
+  message: string;
+}
+```
+
+---
+
+## 🎨 Tema e Personalização
+
+### Alternar tema
+
+O projeto usa `next-themes` para gerenciar temas claro/escuro. A preferência é salva automaticamente.
+
+### Adicionar componentes Shadcn/ui
+
+Por padrão, todos os componentes da biblioteca **shadcn** já foram importados.
+
+```bash 
+npx shadcn-ui@latest add [component-name]
+```
+
+Exemplo:
+```bash
+npx shadcn-ui@latest add button
+npx shadcn-ui@latest add input
+```
+
+---
+
+## 🧪 Testando a integração com API
+
+1. Certifique-se que o backend está rodando em `http://127.0.0.1:8000`
+2. Inicie o frontend: `npm run dev`
+3. Acesse `http://localhost:5173`
+4. Digite uma mensagem no chat e envie
+5. A resposta do agente de IA deve aparecer
+
+### Exemplo de fluxo
+
+```
+Você: "Quanto é 45 * 11?"
+       ↓
+   API Backend
+       ↓
+ Agente de IA
+       ↓
+Resposta: "O resultado é 495."
+```
+
+---
+
+## ⚠️ Solução de problemas
+
+| Problema | Solução |
+|---|---|
+| **"Cannot find module"** | Execute `npm install` novamente |
+| **API não responde** | Verifique se o backend está rodando em http://localhost:8000 |
+| **Porta 5173 já em uso** | Use `npm run dev -- --port 3000` |
+| **Estilos não aplicam** | Limpe o cache: delete `node_modules` e `package-lock.json`, depois `npm install` |
+| **TypeScript errors** | Execute `npm run lint` e corrija os erros |
+
+---
+
+## 📝 Scripts disponíveis
+
+```bash
+npm run dev        # Inicia servidor de desenvolvimento
+npm run build      # Build para produção
+npm run lint       # Verifica estilos com ESLint
+npm run preview    # Preview do build de produção
+```
+
+---
+
+## 🔧 Desenvolvimento
+
+### Adicionar nova página
+
+1. Crie um componente em `src/components/`
+2. Importe e use em `App.tsx`
+3. Estile com Tailwind CSS
+
+### Adicionar novo hook
+
+1. Crie o arquivo em `src/hooks/`
+2. Exporte a função customizada
+3. Use em componentes com `useYourHook()`
+
+---
+
+## 📄 Licença
+
+Desenvolvido exclusivamente para o processo seletivo da **Dreamsquad**.
+
+Todos os direitos reservados.
+
+---
+
+## 👤 Autor
+
+Desenvolvido por **Caio Pacheco Andrade** como solução para o desafio técnico da Dreamsquad.
+
+---
+
+**Última atualização:** Novembro de 2025
