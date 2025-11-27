@@ -8,7 +8,7 @@
 
 ## 📖 Sobre o projeto
 
-Interface web moderna e responsiva desenvolvida como solução para o desafio técnico da **Dreamsquad**. O frontend oferece uma experiência de chat intuitiva e elegante, integrando-se perfeitamente com o backend de IA local. Construído com tecnologias modernas e otimizadas para performance.
+Interface web moderna e responsiva desenvolvida como solução para o desafio técnico da **Dreamsquad**. Este é o **frontend complementar** do sistema de chat com IA local. O projeto integra-se perfeitamente com o [backend](https://github.com/caiopa22/desafio-dreamsquad-backend) (clique para acessar o repositório).
 
 ---
 
