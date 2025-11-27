@@ -50,7 +50,7 @@ desafio-dreamsquad-frontend/
 │   │   ├── ui/               # Componentes Shadcn/ui
 │   │   ├── app-sidebar.tsx   # Sidebar principal
 │   │   ├── chat-input.tsx    # Input de mensagens
-│   │   ├── initial-chat.tsx  # Chat inicial vazio
+│   │   ├── initial-chat.tsx  # Chat inicial
 │   │   └── toggle-theme.tsx  # Toggle de tema
 │   ├── hooks/
 │   │   ├── useChat.ts        # Hook de gerenciamento de chat
@@ -62,8 +62,7 @@ desafio-dreamsquad-frontend/
 │   ├── models/
 │   │   └── ApiResponses.ts   # Modelos de resposta da API
 │   ├── utils/
-│   │   ├── toast.ts          # Funções de notificação
-│   │   └── ApiResponses.ts   # Tipos de API
+│   │   └── toast.ts          # Funções de notificação
 │   ├── App.tsx               # Componente raiz
 │   ├── main.tsx              # Entrada da aplicação
 │   ├── globals.css           # Estilos globais
