@@ -18,8 +18,12 @@ export default function InitialChat({ setPrompt, prompt, onSubmit }: Props) {
             className="flex flex-col items-center justify-center w-full h-full gap-12"
         >
             <h1 className="font-[Geist] text-3xl text-foreground font-bold">
-                Olá, como posso te ajudar?
+                Olá, como posso te ajudar hoje?
             </h1>
+            <p className="font-[Geist] text-muted-foreground w-2/5 text-center">
+                O Ares AI é um assistente de IA desenvolvido para conversar em português de forma natural, objetiva e eficiente.
+                Ele responde perguntas gerais, ajuda com informações diversas e realiza cálculos matemáticos utilizando uma ferramenta dedicada para garantir precisão e segurança.
+            </p>
             <div className="flex flex-col gap-4 w-2/4">
                 <Textarea
                     placeholder="Digite seu prompt incrível aqui"
