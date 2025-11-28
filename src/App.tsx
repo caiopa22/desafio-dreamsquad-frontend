@@ -8,6 +8,7 @@ import ChatInput from "./components/chat-input";
 import ReactMarkdown from 'react-markdown';
 import { SidebarTrigger, useSidebar } from "./components/ui/sidebar";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "./components/ui/dialog";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function App() {
   const { messages, clearChat, isLoading, sendMessage } = useChat();
@@ -90,54 +91,102 @@ export default function App() {
       {hasChat ? (
         <div className="flex flex-col gap-12 w-full sm:w-4/5 lg:w-3/6 pb-56">
           <div className="flex flex-col justify-center gap-6 mt-12">
-            {messages.map((message, index) => {
-              const isAI = message.role === "assistant";
-              const isCopied = copiedIndex === index;
+            <AnimatePresence mode="popLayout">
+              {messages.map((message, index) => {
+                const isAI = message.role === "assistant";
+                const isCopied = copiedIndex === index;
 
-              return (
-                <div
-                  key={index}
-                  className={`flex ${isAI ? "flex-col gap-2 justify-start" : "justify-end"} mb-4`}
-                >
-                  {isAI && (
-                    <p className="text-[Geist] font-semibold">Ares disse:</p>
-                  )}
-
-                  <div className="flex flex-col items-start gap-2 max-w-[75%]">
-                    <div
-                      className={`
-                        ${isAI ? "text-foreground w-fit" : "bg-chart-5 text-white p-4 rounded-tr-none"} 
-                        rounded-xl
-                        break-words flex-1
-                        font-[Geist]
-                      `}
-                      style={{ whiteSpace: 'pre-wrap' }}
-                    >
-                      <ReactMarkdown>{message.message}</ReactMarkdown>
-                    </div>
-
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ 
+                      duration: 0.3,
+                      ease: "easeOut"
+                    }}
+                    className={`flex ${isAI ? "flex-col gap-2 justify-start" : "justify-end"} mb-4`}
+                  >
                     {isAI && (
-                      <button
-                        onClick={() => handleCopy(message.message, index)}
-                        className="p-2 rounded-lg hover:bg-muted transition-colors flex-shrink-0"
-                        title={isCopied ? "Copiado!" : "Copiar mensagem"}
-                        aria-label="Copiar mensagem"
+                      <motion.p 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.1 }}
+                        className="text-[Geist] font-semibold"
                       >
-                        {isCopied ? (
-                          <CheckIcon className="w-4 h-4 text-green-600" />
-                        ) : (
-                          <CopyIcon className="w-4 h-4 text-muted-foreground" />
-                        )}
-                      </button>
+                        Ares disse:
+                      </motion.p>
                     )}
-                  </div>
-                </div>
-              );
-            })}
+
+                    <div className="flex flex-col items-start gap-2 max-w-[75%]">
+                      <motion.div
+                        initial={{ opacity: 0, x: isAI ? -10 : 10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.15, duration: 0.3 }}
+                        className={`
+                          ${isAI ? "text-foreground w-fit" : "bg-chart-5 text-white p-4 rounded-tr-none"} 
+                          rounded-xl
+                          break-words flex-1
+                          font-[Geist]
+                        `}
+                        style={{ whiteSpace: 'pre-wrap' }}
+                      >
+                        <ReactMarkdown>{message.message}</ReactMarkdown>
+                      </motion.div>
+
+                      {isAI && (
+                        <motion.button
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: 0.25 }}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => handleCopy(message.message, index)}
+                          className="p-2 rounded-lg hover:bg-muted transition-colors flex-shrink-0"
+                          title={isCopied ? "Copiado!" : "Copiar mensagem"}
+                          aria-label="Copiar mensagem"
+                        >
+                          <AnimatePresence mode="wait">
+                            {isCopied ? (
+                              <motion.div
+                                key="check"
+                                initial={{ scale: 0, rotate: -180 }}
+                                animate={{ scale: 1, rotate: 0 }}
+                                exit={{ scale: 0, rotate: 180 }}
+                                transition={{ duration: 0.2 }}
+                              >
+                                <CheckIcon className="w-4 h-4 text-green-600" />
+                              </motion.div>
+                            ) : (
+                              <motion.div
+                                key="copy"
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                exit={{ scale: 0 }}
+                                transition={{ duration: 0.2 }}
+                              >
+                                <CopyIcon className="w-4 h-4 text-muted-foreground" />
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </motion.button>
+                      )}
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+            
             {isLoading && (
-              <div className="flex justify-start ">
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                className="flex justify-start"
+              >
                 <div className="size-4 rounded-full bg-chart-5 animate-pulse-scale" />
-              </div>
+              </motion.div>
             )}
           </div>
 
