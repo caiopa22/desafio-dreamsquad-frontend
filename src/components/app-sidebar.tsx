@@ -12,8 +12,9 @@ import { ArrowRightIcon } from "lucide-react";
 export function AppSidebar() {
   return (
     <Sidebar>
-      <SidebarHeader className="p-4 flex items-center justify-center">
-        <h1 className="text-2xl text-chart-5 font-[Geist] font-semibold">Ares AI</h1>
+      <SidebarHeader className="p-4 flex flex-row gap-4 items-center justify-center">
+        <img src="/ares.png" className="h-5 w-4"/>
+        <h1 className="text-2xl text-yellow-400 font-[Geist] font-semibold">Ares AI</h1>
       </SidebarHeader>
 
       <SidebarContent>
