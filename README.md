@@ -21,6 +21,7 @@ Interface web desenvolvida como solução para o desafio técnico da Dreamsquad.
 - ✅ Integração com API local via Axios
 - ✅ Sidebar dinâmica com toggle
 - ✅ Componentes acessíveis (Shadcn)
+- ✅ Animações fluidas com Motion
 
 ---
 
@@ -28,7 +29,7 @@ Interface web desenvolvida como solução para o desafio técnico da Dreamsquad.
 
 | Tecnologia | Versão | Função |
 |---|---|---|
-| **React** | 19.2+ | Framework de UI |
+| **React** | 19.2+ | Framework |
 | **Vite** | 7.2+ | Build tool rápido e moderno |
 | **TypeScript** | 5.9+ | Tipagem estática |
 | **Tailwind CSS** | 4.1+ | Estilização utilitária |
@@ -37,6 +38,7 @@ Interface web desenvolvida como solução para o desafio técnico da Dreamsquad.
 | **Lucide React** | 0.554+ | Ícones |
 | **Next Themes** | 0.4+ | Gerenciador de temas |
 | **React Markdown** | 10.1+ | Renderização de markdown |
+| **Motion** | Latest | Animações e transições |
 
 ---
 
@@ -57,10 +59,9 @@ desafio-dreamsquad-frontend/
 │   │   └── use-mobile.ts     # Responsividade
 │   ├── lib/
 │   │   ├── utils.ts          # Funções utilitárias
-│   │   ├── ApiResponses.ts   # Tipos de respostas da API
-│   │   └── Messages.ts       # Tipos de mensagens
 │   ├── models/
-│   │   └── ApiResponses.ts   # Modelos de resposta da API
+│   │   ├── ApiResponses.ts   # Modelos de resposta da API
+│   │   └── Messages.ts       # Tipos de mensagens
 │   ├── utils/
 │   │   └── toast.ts          # Funções de notificação
 │   ├── App.tsx               # Componente raiz
@@ -152,9 +153,6 @@ Botão para alternar entre modo claro e escuro usando Next Themes.
 ### `hooks/useChat.ts`
 Hook customizado para gerenciar estado do chat, enviar mensagens e integrar com a API.
 
-### `hooks/use-mobile.ts`
-Hook para detectar se está em dispositivo mobile e adaptar UI.
-
 ---
 
 ## 🔗 Integração com API
@@ -245,7 +243,6 @@ Resposta: "O resultado é 495."
 | **API não responde** | Verifique se o backend está rodando em http://localhost:8000 |
 | **Porta 5173 já em uso** | Use `npm run dev -- --port 3000` |
 | **Estilos não aplicam** | Limpe o cache: delete `node_modules` e `package-lock.json`, depois `npm install` |
-| **TypeScript errors** | Execute `npm run lint` e corrija os erros |
 
 ---
 
@@ -273,6 +270,12 @@ npm run preview    # Preview do build de produção
 1. Crie o arquivo em `src/hooks/`
 2. Exporte a função customizada
 3. Use em componentes com `useYourHook()`
+
+### Adicionar animações
+
+1. Importe `motion` de `motion/react`
+2. Envolva o componente com `<motion.div>`
+3. Configure as propriedades `initial`, `animate`, `exit` e `transition`
 
 ---
 
